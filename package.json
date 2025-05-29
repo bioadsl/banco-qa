@@ -1,12 +1,15 @@
-
 {
   "name": "banco-qa",
   "version": "1.0.0",
-  "description": "Projeto de automação de testes com Cypress para simular transferências bancárias",
+  "description": "Automação de testes para simulação de transferências bancárias com Cypress",
   "scripts": {
-    "test": "cypress run"
+    "start": "live-server ./frontend --port=5500",
+    "cypress:run": "cypress run",
+    "test": "start-server-and-test start http://127.0.0.1:5500 cypress:run"
   },
   "devDependencies": {
-    "cypress": "^12.0.0"
+    "cypress": "^12.17.4",
+    "live-server": "^1.2.2",
+    "start-server-and-test": "^1.14.0"
   }
 }
