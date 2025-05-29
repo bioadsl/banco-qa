@@ -1,0 +1,12 @@
+
+{
+  "name": "banco-qa",
+  "version": "1.0.0",
+  "description": "Projeto de automação de testes com Cypress para simular transferências bancárias",
+  "scripts": {
+    "test": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^12.0.0"
+  }
+}

@@ -1,36 +1,36 @@
-# 💳 Banco QA
 
-Simulador bancário minimalista desenvolvido como parte de um desafio técnico de QA. A aplicação permite realizar transferências entre correntistas com saldo inicial e validações básicas.
+# Banco QA
 
-Ideal para praticar:
-- Testes manuais
-- Testes automatizados com Cypress
-- Validações de front-end e back-end (com JSON Server)
+Aplicação simulada de transferências bancárias para fins de automação de testes com Cypress e CI/CD via GitHub Actions.
 
----
+## 🚀 Tecnologias
 
-## 🧩 Funcionalidades
+- HTML, CSS, Bootstrap
+- AngularJS (1.x)
+- Cypress
+- GitHub Actions
 
-✔️ Consulta de saldo inicial (R$ 200,00)  
-✔️ Transferência entre correntistas do mesmo banco  
-✔️ Validação de saldo insuficiente  
-✔️ Validação de campos obrigatórios (cliente, valor, data)  
-✔️ Cancelamento e reset do formulário  
+## 📂 Estrutura
 
----
+- `/frontend/` → app simulando transferências
+- `/cypress/` → testes automatizados
+- `.github/workflows/` → CI pipeline
+- `contas.json` → base simulada de correntistas
 
-## 🚀 Tecnologias Utilizadas
+## 🧪 Casos de Teste Automatizados (Cypress)
 
-- HTML + CSS + JS puro
-- JSON Server (simulando API REST)
-- Cypress (recomendado para automação)
-- GitHub Pages (deploy da interface)
+1. Transferência com saldo suficiente
+2. Tentativa com saldo insuficiente
+3. Validação de campos obrigatórios
 
----
+## ▶️ Executar no GitHub Actions
 
-## 🛠️ Como Executar Localmente
+Esse repositório possui pipeline automático. Ao clicar em **"Run workflow"** na aba `Actions`, o GitHub:
 
-1. Clone o repositório:
-   ```bash
-   git clone https://github.com/seu-usuario/banco-qa.git
-   cd banco-qa
+- Instala o projeto
+- Sobe um servidor local com `live-server`
+- Executa os testes
+- Exibe os resultados no console (logs)
+
+> Ideal para apresentação ou avaliação técnica. Basta acessar o repositório e executar o workflow.
+
