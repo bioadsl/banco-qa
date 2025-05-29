@@ -1,7 +1,6 @@
-
 describe('Banco QA - Transferência', () => {
   beforeEach(() => {
-    cy.visit('http://127.0.0.1:5500/frontend/index.html'); // substitua por GitHub Pages se aplicável
+    cy.visit('/'); // Corrigido: sem /frontend, pois live-server já aponta direto pra /frontend
   });
 
   it('realiza transferência com saldo suficiente', () => {
