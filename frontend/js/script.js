@@ -14,22 +14,25 @@ app.controller('BancoController', function($scope) {
     { id: 10, nome: "Patrícia", saldo: 270 }
   ];
 
+  $scope.transferencia = {
+    remetente: '',
+    destino: '',
+    valor: null,
+    data: null
+  };
+
   $scope.mensagem = {
     texto: '',
     classe: ''
   };
 
-  $scope.transferencia = {
-    remetente: '',
-    destino: '',
-    valor: null
-  };
+  $scope.extrato = [];
 
   $scope.transferir = function() {
-    const { remetente, destino } = $scope.transferencia;
-    let valor = parseFloat($scope.transferencia.valor);
+    const { remetente, destino, valor, data } = $scope.transferencia;
+    const valorNum = parseFloat(valor);
 
-    if (!remetente || !destino || isNaN(valor)) {
+    if (!remetente || !destino || isNaN(valorNum) || !data) {
       mostrarMensagem("Preencha todos os campos.", false);
       return;
     }
@@ -39,38 +42,50 @@ app.controller('BancoController', function($scope) {
       return;
     }
 
+    if (valorNum <= 0) {
+      mostrarMensagem("O valor da transferência deve ser maior que zero.", false);
+      return;
+    }
+
     const origem = $scope.contas.find(c => c.id === remetente);
     const destinoConta = $scope.contas.find(c => c.id === destino);
 
     if (!origem || !destinoConta) return;
 
-    if (origem.saldo < valor) {
-	  $scope.mensagem.texto = "Saldo insuficiente.";
-	  $scope.mensagem.classe = "alert-danger";
-	  return;
-	}
+    if (origem.saldo < valorNum) {
+      mostrarMensagem("Saldo insuficiente.", false);
+      return;
+    }
 
-	if (valor <= 0) {
-	  $scope.mensagem.texto = "O valor da transferência deve ser maior que zero.";
-	  $scope.mensagem.classe = "alert-danger";
-	  return;
-	}
+    origem.saldo -= valorNum;
+    destinoConta.saldo += valorNum;
 
-    origem.saldo -= valor;
-    destinoConta.saldo += valor;
+    // Salvar no extrato
+    $scope.extrato.unshift({
+      data: new Date(data).toLocaleDateString(),
+      remetente: origem.nome,
+      destino: destinoConta.nome,
+      valor: valorNum
+    });
 
     mostrarMensagem("Transferência simulada com sucesso.", true);
-    $scope.transferencia.valor = null;
+    $scope.cancelar();
   };
 
- $scope.mensagem = { texto: '', classe: '' };
+  $scope.cancelar = function() {
+    $scope.transferencia = {
+      remetente: '',
+      destino: '',
+      valor: null,
+      data: null
+    };
+    $scope.mensagem = { texto: '', classe: '' };
+  };
 
-function mostrarMensagem(texto, sucesso = true) {
-  $scope.mensagem.texto = texto;
-  $scope.mensagem.classe = sucesso ? 'alert-success' : 'alert-danger';
-  const msg = document.getElementById('mensagem');
-  msg.textContent = texto;
-  msg.className = 'alert ' + $scope.mensagem.classe;
-  msg.style.display = 'block';
-}
+  function mostrarMensagem(texto, sucesso = true) {
+    $scope.mensagem = {
+      texto: texto,
+      classe: sucesso ? 'alert-success' : 'alert-danger'
+    };
+  }
 });
