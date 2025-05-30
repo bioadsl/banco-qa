@@ -15,11 +15,17 @@
       <div class="col-md-4">
         <div class="card p-3">
           <h2 class="text-center text-primary fw-bold">Banco QA</h2>
-          <p class="text-end fw-bold">Saldo: <span ng-class="{'text-success': saldo >= 0, 'text-danger': saldo < 0}">R${{ saldo.toFixed(2) }}</span></p>
+			<p class="fw-bold m-0">Saldo: 
+			<span ng-if="saldoOrigem !== null" ng-class="{'text-success': saldoOrigem >= 0, 'text-danger': saldoOrigem < 0}">
+			  R$ {{ saldoOrigem.toFixed(2) }}
+			</span>
+			<span ng-if="saldoOrigem === null">R$ --</span>
+		  </p>
+
           <form ng-submit="transferir()" class="mb-2">
 			<div class="mb-3">
 			  <label for="remetente" class="form-label">Cliente origem</label>
-			  <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas">
+			  <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas" ng-change="atualizarSaldo()">
 				<option value="">Selecione o remetente</option>
 			  </select>
 			</div>		  

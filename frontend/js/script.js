@@ -90,4 +90,11 @@ app.controller('BancoController', function($scope) {
 		};
 	  });
 	}
+	
+	$scope.saldoOrigem = null;
+
+	$scope.atualizarSaldo = function() {
+	  const cliente = $scope.contas.find(c => c.id === $scope.transferencia.remetente);
+	  $scope.saldoOrigem = cliente ? cliente.saldo : null;
+	};
 });
