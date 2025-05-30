@@ -1,28 +1,50 @@
+// transferencia.cy.js - Cypress tests com base nos fluxos positivos e negativos
+
 describe('Banco QA - Transferência', () => {
+
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit('index.html');
   });
 
   it('realiza transferência com saldo suficiente', () => {
-    cy.get('select#remetente').select('Fabricio');
-    cy.get('select#destino').select('Carlos');
-    cy.get('input[type="number"]').clear().type('50');
-    cy.get('input[type="date"]').clear().type('2025-05-30');
-    cy.contains('Transferir').click();
-    cy.get('.alert-success').should('contain', 'Transferência simulada com sucesso.');
+    cy.get('#remetente').select('Fabricio');
+    cy.get('#destino').select('Joana');
+    cy.get('#valor').type('100');
+    cy.get('#data').type('2025-06-01');
+    cy.get('form').submit();
+    cy.get('.alert-success').should('contain', 'Transferência simulada com sucesso');
   });
 
   it('impede transferência com saldo insuficiente', () => {
-    cy.get('select#remetente').select('Carlos');
-    cy.get('select#destino').select('Joana');
-    cy.get('input[type="number"]').clear().type('9999');
-    cy.get('input[type="date"]').clear().type('2025-05-30');
-    cy.contains('Transferir').click();
-    cy.get('.alert-danger').should('contain', 'Saldo insuficiente.');
+    cy.get('#remetente').select('Renata');
+    cy.get('#destino').select('Carlos');
+    cy.get('#valor').type('9999');
+    cy.get('#data').type('2025-06-01');
+    cy.get('form').submit();
+    cy.get('.alert-danger').should('contain', 'Saldo insuficiente');
   });
 
   it('valida campos obrigatórios vazios', () => {
-    cy.contains('Transferir').click();
-    cy.get('.alert-danger').should('contain', 'Preencha todos os campos.');
+    cy.get('form').submit();
+    cy.get('.alert-danger').should('contain', 'Preencha todos os campos');
   });
+
+  it('impede transferência para o mesmo cliente', () => {
+    cy.get('#remetente').select('Carlos');
+    cy.get('#destino').select('Carlos');
+    cy.get('#valor').type('10');
+    cy.get('#data').type('2025-06-01');
+    cy.get('form').submit();
+    cy.get('.alert-danger').should('contain', 'Não é possível transferir para o mesmo cliente');
+  });
+
+  it('impede transferência com valor negativo ou zero', () => {
+    cy.get('#remetente').select('Tiago');
+    cy.get('#destino').select('Marina');
+    cy.get('#valor').type('-10');
+    cy.get('#data').type('2025-06-01');
+    cy.get('form').submit();
+    cy.get('.alert-danger').should('contain', 'Preencha todos os campos'); // pode ajustar regra se validar valor
+  });
+
 });
