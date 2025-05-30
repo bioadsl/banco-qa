@@ -17,6 +17,12 @@
           <h2 class="text-center text-primary fw-bold">Banco QA</h2>
           <p class="text-end fw-bold">Saldo: <span ng-class="{'text-success': saldo >= 0, 'text-danger': saldo < 0}">R${{ saldo.toFixed(2) }}</span></p>
           <form ng-submit="transferir()" class="mb-2">
+			<div class="mb-3">
+			  <label for="remetente" class="form-label">Cliente origem</label>
+			  <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas">
+				<option value="">Selecione o remetente</option>
+			  </select>
+			</div>		  
             <div class="mb-3">
               <label for="destino" class="form-label">Cliente destino</label>
               <select id="destino" class="form-select" ng-model="transferencia.destino" ng-options="c.id as c.nome for c in contas">
