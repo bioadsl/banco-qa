@@ -9,57 +9,82 @@
 </head>
 <body ng-app="bancoApp" ng-controller="BancoController">
   <div class="container mt-5">
-    <h1 class="mb-4">Banco QA</h1>
-    <form ng-submit="transferir()" class="mb-4">
-      <div class="mb-3">
-        <label for="remetente" class="form-label">Cliente origem</label>
-        <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas">
-          <option value="">Selecione o remetente</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="destino" class="form-label">Cliente destino</label>
-        <select id="destino" class="form-select" ng-model="transferencia.destino" ng-options="c.id as c.nome for c in contas">
-          <option value="">Selecione o destinatário</option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label for="valor" class="form-label">Valor da transferência</label>
-        <input type="number" step="0.01" id="valor" class="form-control" ng-model="transferencia.valor">
-      </div>
-      <div class="mb-3">
-        <label for="data" class="form-label">Data de efetivação</label>
-        <input type="date" id="data" class="form-control" ng-model="transferencia.data">
-      </div>
-      <button type="submit" class="btn btn-primary">Transferir</button>
-    </form>
+    <div class="row justify-content-between">
+      
+      <!-- Coluna 1: Formulário -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h2 class="text-center text-primary fw-bold">Banco QA</h2>
+          <p class="text-end fw-bold">Saldo: <span ng-class="{'text-success': saldo >= 0, 'text-danger': saldo < 0}">R${{ saldo.toFixed(2) }}</span></p>
+          <form ng-submit="transferir()" class="mb-2">
+            <div class="mb-3">
+              <label for="destino" class="form-label">Cliente destino</label>
+              <select id="destino" class="form-select" ng-model="transferencia.destino" ng-options="c.id as c.nome for c in contas">
+                <option value="">Selecione o destinatário</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="valor" class="form-label">Valor</label>
+              <input type="number" step="0.01" id="valor" class="form-control" ng-model="transferencia.valor">
+            </div>
+            <div class="mb-3">
+              <label for="data" class="form-label">Data de efetivação</label>
+              <input type="date" id="data" class="form-control" ng-model="transferencia.data">
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary">Transferir</button>
+              <button type="button" class="btn btn-secondary" ng-click="cancelar()">Cancelar</button>
+            </div>
+          </form>
 
-    <!-- ALERTA VISÍVEL -->
-    <div id="mensagem" class="alert" ng-class="mensagem.classe" role="alert" ng-show="mensagem.texto">
-      {{ mensagem.texto }}
+          <div id="mensagem" class="alert mt-2" ng-class="mensagem.classe" role="alert" ng-show="mensagem.texto">
+            {{ mensagem.texto }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna 2: Extrato -->
+      <div class="col-md-3">
+        <div class="card p-3">
+          <h4 class="text-center">Extrato</h4>
+          <div ng-if="extrato.length === 0">
+            <p class="text-center">Nenhuma transação registrada.</p>
+          </div>
+          <ul class="list-group" ng-if="extrato.length > 0">
+            <li class="list-group-item" ng-repeat="item in extrato">
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Coluna 3: Painel do Gerente -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h4 class="text-center">Painel do Gerente</h4>
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="c in contas">
+                <td>{{ c.id }}</td>
+                <td>{{ c.nome }}</td>
+                <td ng-class="{'text-success': c.saldo >= 0, 'text-danger': c.saldo < 0}">
+                  R$ {{ c.saldo.toFixed(2) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
-
-    <hr>
-
-    <h2>Painel do Gerente</h2>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Saldo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr ng-repeat="c in contas">
-          <td>{{ c.nome }}</td>
-          <td ng-class="{'text-success': c.saldo >= 0, 'text-danger': c.saldo < 0}">
-            R$ {{ c.saldo.toFixed(2) }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-
   <script src="js/script.js"></script>
 </body>
 </html>
