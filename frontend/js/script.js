@@ -56,12 +56,14 @@ app.controller('BancoController', function($scope) {
     $scope.transferencia.valor = null;
   };
 
-  function mostrarMensagem(texto, sucesso = true) {
-    $scope.mensagem.texto = texto;
-    $scope.mensagem.classe = sucesso ? 'alert-success' : 'alert-danger';
-    const msg = document.getElementById('mensagem');
-    msg.textContent = texto;
-    msg.className = 'alert ' + $scope.mensagem.classe;
-    msg.style.display = 'block';
-  }
+ $scope.mensagem = { texto: '', classe: '' };
+
+function mostrarMensagem(texto, sucesso = true) {
+  $scope.mensagem.texto = texto;
+  $scope.mensagem.classe = sucesso ? 'alert-success' : 'alert-danger';
+  const msg = document.getElementById('mensagem');
+  msg.textContent = texto;
+  msg.className = 'alert ' + $scope.mensagem.classe;
+  msg.style.display = 'block';
+}
 });
