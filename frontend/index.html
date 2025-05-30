@@ -50,19 +50,20 @@
       </div>
 
       <!-- Coluna 2: Extrato -->
-      <div class="col-md-3">
-        <div class="card p-3">
-          <h4 class="text-center">Extrato</h4>
-          <div ng-if="extrato.length === 0">
-            <p class="text-center">Nenhuma transação registrada.</p>
-          </div>
-          <ul class="list-group" ng-if="extrato.length > 0">
-            <li class="list-group-item" ng-repeat="item in extrato">
-              {{ item }}
-            </li>
-          </ul>
-        </div>
-      </div>
+		<div class="card mb-4">
+		  <div class="card-header">
+			<strong>Extrato</strong>
+		  </div>
+		  <ul class="list-group list-group-flush">
+			<li class="list-group-item" ng-repeat="t in extrato">
+			  {{ t.data }} - {{ t.remetente }} transferiu R$ {{ t.valor.toFixed(2) }} para {{ t.destino }}
+			</li>
+			<li class="list-group-item" ng-if="extrato.length === 0">
+			  Nenhuma transação registrada.
+			</li>
+		  </ul>
+		</div>
+
 
       <!-- Coluna 3: Painel do Gerente -->
       <div class="col-md-4">
