@@ -45,9 +45,16 @@ app.controller('BancoController', function($scope) {
     if (!origem || !destinoConta) return;
 
     if (origem.saldo < valor) {
-      mostrarMensagem("Saldo insuficiente.", false);
-      return;
-    }
+	  $scope.mensagem.texto = "Saldo insuficiente.";
+	  $scope.mensagem.classe = "alert-danger";
+	  return;
+	}
+
+	if (valor <= 0) {
+	  $scope.mensagem.texto = "O valor da transferência deve ser maior que zero.";
+	  $scope.mensagem.classe = "alert-danger";
+	  return;
+	}
 
     origem.saldo -= valor;
     destinoConta.saldo += valor;
