@@ -26,36 +26,45 @@ app.controller('BancoController', function($scope) {
   };
 
   $scope.transferir = function() {
-    const { remetente, destino, valor } = $scope.transferencia;
+  const { remetente, destino } = $scope.transferencia;
+  let valor = parseFloat($scope.transferencia.valor);
 
-    if (!remetente  !destino  !valor) {
-      $scope.mensagem.texto = Preencha todos os campos.;
-      $scope.mensagem.classe = alert-danger;
-      return;
-    }
+  if (!remetente || !destino || isNaN(valor)) {
+    $scope.mensagem.texto = "Preencha todos os campos.";
+    $scope.mensagem.classe = "alert-danger";
+    return;
+  }
 
-    if (remetente === destino) {
-      $scope.mensagem.texto = Não é possível transferir para o mesmo cliente.;
-      $scope.mensagem.classe = alert-danger;
-      return;
-    }
+  if (remetente === destino) {
+    $scope.mensagem.texto = "Não é possível transferir para o mesmo cliente.";
+    $scope.mensagem.classe = "alert-danger";
+    return;
+  }
 
-    const origem = $scope.contas.find(c = c.id === remetente);
-    const destinoConta = $scope.contas.find(c = c.id === destino);
+  const origem = $scope.contas.find(c => c.id === remetente);
+  const destinoConta = $scope.contas.find(c => c.id === destino);
 
-    if (!origem  !destinoConta) return;
+  if (!origem || !destinoConta) return;
 
-    if (origem.saldo  valor) {
-      $scope.mensagem.texto = Saldo insuficiente.;
-      $scope.mensagem.classe = alert-danger;
-      return;
-    }
+  if (origem.saldo < valor) {
+    $scope.mensagem.texto = "Saldo insuficiente.";
+    $scope.mensagem.classe = "alert-danger";
+    return;
+  }
 
-    origem.saldo -= valor;
-    destinoConta.saldo += valor;
+  origem.saldo -= valor;
+  destinoConta.saldo += valor;
 
-    $scope.mensagem.texto = Transferência simulada com sucesso.;
-    $scope.mensagem.classe = alert-success;
-    $scope.transferencia.valor = null;
+  $scope.mensagem.texto = "Transferência simulada com sucesso.";
+  $scope.mensagem.classe = "alert-success";
+  $scope.transferencia.valor = null;
   };
+
+  function mostrarMensagem(texto, sucesso = true) {
+   const msg = document.getElementById('mensagem');
+	msg.textContent = texto;
+	msg.className = 'alert ' + (sucesso ? 'alert-success' : 'alert-danger');
+	msg.style.display = 'block';
+  }
+
 });
