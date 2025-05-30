@@ -9,68 +9,66 @@
 </head>
 <body ng-app="bancoApp" ng-controller="BancoController">
   <div class="container mt-5">
-    <div class="row justify-content-between">
-      
+    <div class="row g-3"><!--  🚀 AQUI USANDO g-3 para manter espaçamento e o grid funcionar! -->
+
       <!-- Coluna 1: Formulário -->
       <div class="col-md-4">
         <div class="d-flex justify-content-between align-items-center mb-2">
-		  <h2 class="text-primary fw-bold m-0">Banco QA</h2>
-		  <p class="fw-bold m-0">Saldo: 
-			<span ng-if="saldoOrigem !== null" ng-class="{'text-success': saldoOrigem >= 0, 'text-danger': saldoOrigem < 0}">
-			  R$ {{ saldoOrigem.toFixed(2) }}
-			</span>
-			<span ng-if="saldoOrigem === null">R$ --</span>
-		  </p>
-		</div>
+          <h2 class="text-primary fw-bold m-0">Banco QA</h2>
+          <p class="fw-bold m-0">Saldo: 
+            <span ng-if="saldoOrigem !== null" ng-class="{'text-success': saldoOrigem >= 0, 'text-danger': saldoOrigem < 0}">
+              R$ {{ saldoOrigem.toFixed(2) }}
+            </span>
+            <span ng-if="saldoOrigem === null">R$ --</span>
+          </p>
+        </div>
 
-          <form ng-submit="transferir()" class="mb-2">
-			<div class="mb-3">
-			  <label for="remetente" class="form-label">Cliente origem</label>
-			  <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas" ng-change="atualizarSaldo()">
-
-				<option value="">Selecione o remetente</option>
-			  </select>
-			</div>		  
-            <div class="mb-3">
-              <label for="destino" class="form-label">Cliente destino</label>
-              <select id="destino" class="form-select" ng-model="transferencia.destino" ng-options="c.id as c.nome for c in contas">
-                <option value="">Selecione o destinatário</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label for="valor" class="form-label">Valor</label>
-              <input type="number" step="0.01" id="valor" class="form-control" ng-model="transferencia.valor">
-            </div>
-            <div class="mb-3">
-              <label for="data" class="form-label">Data de efetivação</label>
-              <input type="date" id="data" class="form-control" ng-model="transferencia.data">
-            </div>
-            <div class="d-flex justify-content-between">
-              <button type="submit" class="btn btn-primary">Transferir</button>
-              <button type="button" class="btn btn-secondary" ng-click="cancelar()">Cancelar</button>
-            </div>
-          </form>
-
-          <div id="mensagem" class="alert mt-2" ng-class="mensagem.classe" role="alert" ng-show="mensagem.texto">
-            {{ mensagem.texto }}
+        <form ng-submit="transferir()" class="mb-2">
+          <div class="mb-3">
+            <label for="remetente" class="form-label">Cliente origem</label>
+            <select id="remetente" class="form-select" ng-model="transferencia.remetente" ng-options="c.id as c.nome for c in contas" ng-change="atualizarSaldo()">
+              <option value="">Selecione o remetente</option>
+            </select>
           </div>
+          <div class="mb-3">
+            <label for="destino" class="form-label">Cliente destino</label>
+            <select id="destino" class="form-select" ng-model="transferencia.destino" ng-options="c.id as c.nome for c in contas">
+              <option value="">Selecione o destinatário</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="valor" class="form-label">Valor</label>
+            <input type="number" step="0.01" id="valor" class="form-control" ng-model="transferencia.valor">
+          </div>
+          <div class="mb-3">
+            <label for="data" class="form-label">Data de efetivação</label>
+            <input type="date" id="data" class="form-control" ng-model="transferencia.data">
+          </div>
+          <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Transferir</button>
+            <button type="button" class="btn btn-secondary" ng-click="cancelar()">Cancelar</button>
+          </div>
+        </form>
+
+        <div id="mensagem" class="alert mt-2" ng-class="mensagem.classe" role="alert" ng-show="mensagem.texto">
+          {{ mensagem.texto }}
         </div>
       </div>
 
-	<!-- Coluna 2: Extrato -->
-	<div class="col-md-4">
-	  <div class="card p-3 mb-4">
-		<h4 class="text-center">Extrato</h4>
-		<ul class="list-group list-group-flush">
-		  <li class="list-group-item" ng-repeat="t in extrato">
-			{{ t.data }} - {{ t.remetente }} transferiu R$ {{ t.valor.toFixed(2) }} para {{ t.destino }}
-		  </li>
-		  <li class="list-group-item" ng-if="extrato.length === 0">
-			Nenhuma transação registrada.
-		  </li>
-		</ul>
-	  </div>
-	</div>
+      <!-- Coluna 2: Extrato -->
+      <div class="col-md-4">
+        <div class="card p-3 mb-4">
+          <h4 class="text-center">Extrato</h4>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" ng-repeat="t in extrato">
+              {{ t.data }} - {{ t.remetente }} transferiu R$ {{ t.valor.toFixed(2) }} para {{ t.destino }}
+            </li>
+            <li class="list-group-item" ng-if="extrato.length === 0">
+              Nenhuma transação registrada.
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <!-- Coluna 3: Painel do Gerente -->
       <div class="col-md-4">
