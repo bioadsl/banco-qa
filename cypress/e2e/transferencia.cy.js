@@ -44,7 +44,7 @@ describe('Banco QA - Transferência', () => {
     cy.get('#valor').type('-10');
     cy.get('#data').type('2025-06-01');
     cy.get('form').submit();
-    cy.get('.alert-danger').should('contain', 'Preencha todos os campos'); // pode ajustar regra se validar valor
+    cy.get('.alert-danger').should('contain', 'O valor da transferência deve ser maior que zero.');
   });
 
 });
