@@ -12,7 +12,7 @@ describe('Banco QA - Transferência', () => {
     cy.get('#valor').type('100');
     cy.get('#data').type('2025-06-01');
     cy.get('form').submit();
-    cy.get('.alert-success').should('contain', 'Transferência simulada com sucesso');
+    cy.get('.alert-success').should('be.visible').and('contain', 'Transferência simulada com sucesso');
   });
 
   it('impede transferência com saldo insuficiente', () => {

@@ -82,10 +82,12 @@ app.controller('BancoController', function($scope) {
     $scope.mensagem = { texto: '', classe: '' };
   };
 
-  function mostrarMensagem(texto, sucesso = true) {
-    $scope.mensagem = {
-      texto: texto,
-      classe: sucesso ? 'alert-success' : 'alert-danger'
-    };
-  }
+	function mostrarMensagem(texto, sucesso = true) {
+	  $scope.$applyAsync(() => {
+		$scope.mensagem = {
+		  texto: texto,
+		  classe: sucesso ? 'alert-success' : 'alert-danger'
+		};
+	  });
+	}
 });
