@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    baseUrl: "http://localhost/banco-qa/frontend/",
+    baseUrl: process.env.BASE_URL || "http://localhost/banco-qa/frontend/",
     supportFile: false
   }
 });
